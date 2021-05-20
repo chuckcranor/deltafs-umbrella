@@ -28,8 +28,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [Debug, RelWithDebInfo]
-        compiler: [gcc, clang]
+        #build_type: [Debug, RelWithDebInfo]
+        #compiler: [gcc, clang]
+        build_type: [Debug]
+        compiler: [gcc]
         mpi: [mpich]
         os: [ubuntu-latest]
 
