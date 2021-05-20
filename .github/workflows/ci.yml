@@ -88,13 +88,16 @@ jobs:
             echo "compbase error $compbase - this cannot happen"
           fi
           srcdir=`pwd`
-          cd /tmp/deltafs
+          cd /tmp/deltafs/build
           cmake -DCMAKE_C_COMPILER="$CI_COMPILER" \
               -DCMAKE_CXX_COMPILER="$cxx" \
               -DMPI_C_COMPILER="mpicc.$CI_MPI" \
               -DMPI_CXX_COMPILER="mpicxx.$CI_MPI" \
               -DCMAKE_INSTALL_PREFIX=/tmp/deltafs \
               -DMERCURY_OPA=TRUE \
-              -DUMBRELLA_BUILDTEST=OFF -DUMBRELLA_RUNTESTS=OFF \
+              -DUMBRELLA_BUILDTESTS=OFF -DUMBRELLA_RUNTESTS=OFF \
               $srcdir
+
+      - name: compile and install
+        run: cd /tmp/deltafs/build && make
 
