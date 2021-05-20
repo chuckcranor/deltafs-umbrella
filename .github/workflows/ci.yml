@@ -31,7 +31,7 @@ jobs:
         #build_type: [Debug, RelWithDebInfo]
         #compiler: [gcc, clang]
         build_type: [Debug]
-        compiler: [gcc]
+        compiler: [gcc-9]
         mpi: [mpich]
         os: [ubuntu-latest]
 
@@ -46,6 +46,9 @@ jobs:
 
     # sequential set of steps (i.e. commands) for this job
     steps:
+      - name: print matrix environment
+        run: echo "build=$CI_BUILDTYPE  compiler=$CI_COMPILER  mpi=$CI_MPI"
+
       - name: github checkout source
         uses: actions/checkout@v2
 
