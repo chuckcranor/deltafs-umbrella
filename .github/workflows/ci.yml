@@ -46,8 +46,12 @@ jobs:
 
     # sequential set of steps (i.e. commands) for this job
     steps:
-      - name: print matrix environment
+      - name: display selected environment config
         run: echo "build=$CI_BUILDTYPE  compiler=$CI_COMPILER  mpi=$CI_MPI"
+
+      - name: setup selected environment
+        run: |
+          sudo apt-get update
 
       - name: github checkout source
         uses: actions/checkout@v2
