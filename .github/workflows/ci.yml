@@ -51,6 +51,7 @@ jobs:
 
       - name: probe
         run: printenv
+        run: pwd
 
 
 #        run: which cc
