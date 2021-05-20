@@ -49,16 +49,19 @@ jobs:
       - name: display selected environment config
         run: echo "build=$CI_BUILDTYPE  compiler=$CI_COMPILER  mpi=$CI_MPI"
 
-      # note: clang includes C++, but g++ is its own package
+      # note: clang includes C++, but g++ is its own package.
+      # XXX: run did not like /bin/sh case statement (syntax err, quoting?)
       - name: setup selected environment
         run: |
           sudo apt-get update
-          sudo apt-get install $CI_COMPILER
+          sudo apt-get install -y $CI_COMPILER
           compbase=`echo $CI_COMPILER | sed -e 's/-.*//'`
           if [ "$compbase" = "gcc" ]; then
             cplusplus=`echo $CI_COMPILER| sed -e 's/^gcc/g++/'`
-            sudo apt-get install $cplusplus
+            sudo apt-get install -y $cplusplus
           fi
+          sudo apt-get install -y $CI_MPI lib${CI_MPI}-dev
+          sudo apt-get install -y cmake automake
 
       - name: github checkout source
         uses: actions/checkout@v2
