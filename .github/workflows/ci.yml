@@ -52,18 +52,7 @@ jobs:
       - name: setup selected environment
         run: |
           sudo apt-get update
-          case $CI_COMPILER in
-            gcc-*)
-              echo it is GCC
-            ;;
-            clang-*)
-              echo it is CLANG
-            ;;
-            *)
-              echo "Unknown compiler - $CI_COMPILER"
-              exit 1
-            ;;
-         esac
+          sudo apt-get install $CI_COMPILER
 
       - name: github checkout source
         uses: actions/checkout@v2
