@@ -1,0 +1,49 @@
+#
+# ci.yml  github actions continuous integration for deltafs-umbrella
+# 20-May-2021  chuck@ece.cmu.edu
+#
+
+# workflow name.  user defined string that displays on repo's action page.
+name: CI
+
+# workflow trigger.  when to run?  'branches' limits scope to given branches.
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+# job(s) to run when workflow is triggered.
+jobs:
+
+  # first (and only) job for this workflow: buildtest
+  buildtest:
+
+    # create a build matrix for this job.   disable fail-fast so we
+    # do not fail the whole job if one branch of the matrix fails.
+    # you can use "include" to add branches to matrix and "exclude"
+    # to prune branches you do not want to build.
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, RelWithDebInfo]
+        compiler: [gcc, clang]
+        mpi: [mpich]
+        os: [ubuntu-latest]
+
+    # what os to run on (reference matrix above for this)
+    runs-on: ${{ matrix.os }}
+
+    # environment variables to provide to the job
+    env:
+      CI_BUILDTYPE: ${{ matrix.build_type }}
+      CI_COMPILER: ${{ matrix.compiler }}
+      CI_MPI: ${{ matrix.mpi }}
+
+    # sequential set of steps (i.e. commands) for this job
+    steps:
+      - name: github checkout source
+        uses: actions/checkout@v2
+
