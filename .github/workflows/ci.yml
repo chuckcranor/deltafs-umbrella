@@ -52,8 +52,6 @@ jobs:
       - name: probe
         run: printenv
       - run: pwd
-
-
-#        run: which cc
-#        run: which clang
-##        run: which mpirun
+      - run: which cc
+      - run: which clang
+      - run: which mpirun
