@@ -50,8 +50,9 @@ jobs:
         uses: actions/checkout@v2
 
       - name: probe
-        run: pwd
         run: printenv
-        run: which cc
-        run: which clang
-        run: which mpirun
+
+
+#        run: which cc
+#        run: which clang
+##        run: which mpirun
