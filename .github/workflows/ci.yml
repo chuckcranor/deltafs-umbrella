@@ -62,6 +62,14 @@ jobs:
           fi
           sudo apt-get install -y $CI_MPI lib${CI_MPI}-dev
           sudo apt-get install -y cmake automake
+          sudo apt-get install libibverbs-dev libibverbs-dev
+          sudo apt-get install libpapi-dev libnuma-dev
+
+      - name: version check
+        run: |
+          automake --version
+          cmake --version
+          git --version
 
       - name: github checkout source
         uses: actions/checkout@v2
