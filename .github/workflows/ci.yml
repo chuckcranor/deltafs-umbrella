@@ -57,8 +57,8 @@ jobs:
           sudo apt-get install -y $CI_COMPILER
           compbase=`echo $CI_COMPILER | sed -e 's/-.*//'`
           if [ "$compbase" = "gcc" ]; then
-            cplusplus=`echo $CI_COMPILER| sed -e 's/^gcc/g++/'`
-            sudo apt-get install -y $cplusplus
+            cxx=`echo $CI_COMPILER| sed -e 's/^gcc/g++/'`
+            sudo apt-get install -y $cxx
           fi
           sudo apt-get install -y $CI_MPI lib${CI_MPI}-dev
           sudo apt-get install -y cmake automake
@@ -74,8 +74,27 @@ jobs:
       - name: github checkout source
         uses: actions/checkout@v2
 
-      - name: probe
-        run: printenv
-      - run: pwd
-      - run: gcc --version
-      - run: clang --version
+      - name: setup build area
+        run: rm -rf /tmp/deltafs && mkdir -p /tmp/deltafs/build
+
+      - name: configure via cmake
+        run: |
+          compbase=`echo $CI_COMPILER | sed -e 's/-.*//'`
+          if [ "$compbase" = "gcc" ]; then
+            cxx=`echo $CI_COMPILER| sed -e 's/^gcc/g++/'`
+          elif [ "$compbase" = "clang" ]; then
+            cxx=`echo $CI_COMPILER| sed -e 's/^clang/clang++/'`
+          else
+            echo "compbase error $compbase - this cannot happen"
+          fi
+          srcdir=`pwd`
+          cd /tmp/deltafs
+          cmake --verbose -DCMAKE_C_COMPILER="$CI_COMPILER" \
+              -DCMAKE_CXX_COMPILER="$cxx" \
+              -DMPI_C_COMPILER="mpicc.$CI_MPI" \
+              -DMPI_CXX_COMPILER="mpicxx.$CI_MPI" \
+              -DCMAKE_INSTALL_PREFIX=/tmp/deltafs \
+              -DMERCURY_OPA=TRUE \
+              -DUMBRELLA_BUILDTEST=OFF -DUMBRELLA_RUNTESTS=OFF \
+              $srcdir
+
