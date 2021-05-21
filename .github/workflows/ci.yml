@@ -60,7 +60,11 @@ jobs:
             cxx=`echo $CI_COMPILER| sed -e 's/^gcc/g++/'`
             sudo apt-get install -y $cxx
           fi
-          sudo apt-get install -y $CI_MPI lib${CI_MPI}-dev
+          if [ "$CI_MPI" = "openmpi" ]; then
+            sudo apt-get install -y ${CI_MPI}-bin lib${CI_MPI}-dev
+          else
+            sudo apt-get install -y $CI_MPI lib${CI_MPI}-dev
+          fi
           sudo apt-get install -y cmake automake
           sudo apt-get install libibverbs-dev libibverbs-dev
           sudo apt-get install libpapi-dev libnuma-dev
