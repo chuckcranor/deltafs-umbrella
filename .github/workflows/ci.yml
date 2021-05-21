@@ -31,7 +31,7 @@ jobs:
         #build_type: [Debug, RelWithDebInfo]
         #compiler: [gcc, clang]
         build_type: [Debug]
-        compiler: [gcc-7 gcc-8 gcc-9 gcc-10]
+        compiler: [gcc-7, gcc-8, gcc-9, gcc-10]
         mpi: [mpich]
         os: [ubuntu-latest]
 
