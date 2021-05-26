@@ -120,8 +120,9 @@ jobs:
               -DMPI_CXX_COMPILER="mpicxx.$CI_MPI" \
               -DCMAKE_INSTALL_PREFIX=/tmp/deltafs \
               -DUMBRELLA_BUILDTESTS=OFF -DUMBRELLA_RUNTESTS=OFF \
+              -DOFI_EXTRA_CFG="--disable-psm3" \
               $srcdir
 
       - name: compile and install
-        run: cd /tmp/deltafs/build && make
+        run: date && cd /tmp/deltafs/build && make && date
 
